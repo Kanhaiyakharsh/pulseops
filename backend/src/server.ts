@@ -5,12 +5,7 @@ import { loadDotenvFiles } from '@/config/dotenv';
 import { EnvValidationError, loadEnv } from '@/config/env';
 import { createLogger } from '@/lib/logger';
 import { connectMongo, disconnectMongo, pingMongo } from '@/lib/mongo';
-import {
-  connectRedis,
-  createRedisClient,
-  disconnectRedis,
-  pingRedis,
-} from '@/lib/redis';
+import { connectRedis, createRedisClient, disconnectRedis, pingRedis } from '@/lib/redis';
 import { HealthService } from '@/modules/health/health.service';
 
 const SERVICE_NAME = 'pulseops-backend';

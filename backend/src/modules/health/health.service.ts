@@ -42,10 +42,7 @@ export class HealthService {
   }
 
   async getReadiness(): Promise<HealthResponse> {
-    const [mongodb, redis] = await Promise.all([
-      this.runProbe('mongodb'),
-      this.runProbe('redis'),
-    ]);
+    const [mongodb, redis] = await Promise.all([this.runProbe('mongodb'), this.runProbe('redis')]);
     const healthy = mongodb.status === 'up' && redis.status === 'up';
     return {
       status: healthy ? 'ok' : 'error',

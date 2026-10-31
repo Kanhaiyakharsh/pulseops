@@ -4,14 +4,14 @@ Phase 1 of PulseOps: a production-oriented TypeScript monorepo. It contains a Re
 
 ## Stack
 
-| Area      | Choice                                                                           |
-| --------- | -------------------------------------------------------------------------------- |
-| Frontend  | React 19, Vite 7, TypeScript                                                     |
-| Backend   | Express 5, TypeScript, Mongoose, ioredis, pino (structured logs), helmet, cors   |
+| Area      | Choice                                                                            |
+| --------- | --------------------------------------------------------------------------------- |
+| Frontend  | React 19, Vite 7, TypeScript                                                      |
+| Backend   | Express 5, TypeScript, Mongoose, ioredis, pino (structured logs), helmet, cors    |
 | Shared    | `@pulseops/shared`: Zod schemas, inferred types and constants (TypeScript source) |
-| Infra     | Docker Compose: MongoDB 7 and Redis 7.4, both with auth and health checks        |
-| Quality   | ESLint 9 (typed), Prettier, strict TypeScript, Vitest, GitHub Actions CI         |
-| Packaging | npm workspaces                                                                   |
+| Infra     | Docker Compose: MongoDB 7 and Redis 7.4, both with auth and health checks         |
+| Quality   | ESLint 9 (typed), Prettier, strict TypeScript, Vitest, GitHub Actions CI          |
+| Packaging | npm workspaces                                                                    |
 
 ## Repository layout
 
@@ -52,13 +52,13 @@ npm run dev          # creates .env if missing, starts MongoDB + Redis, then bac
 
 `npm run dev` runs `setup` (creates `.env`), `infra:up` (starts containers and waits until they are healthy), and `dev:apps` (backend and frontend together).
 
-| Service  | URL                                                                              |
-| -------- | -------------------------------------------------------------------------------- |
-| Frontend | http://localhost:5173                                                            |
-| API      | http://localhost:4000/api/v1                                                     |
-| Health   | http://localhost:4000/api/v1/health                                              |
+| Service  | URL                                                                                  |
+| -------- | ------------------------------------------------------------------------------------ |
+| Frontend | http://localhost:5173                                                                |
+| API      | http://localhost:4000/api/v1                                                         |
+| Health   | http://localhost:4000/api/v1/health                                                  |
 | MongoDB  | `mongodb://pulseops:pulseops_dev_password@localhost:27017/pulseops?authSource=admin` |
-| Redis    | `redis://:pulseops_dev_password@localhost:6379`                                   |
+| Redis    | `redis://:pulseops_dev_password@localhost:6379`                                      |
 
 The frontend proxies `/api` to the backend in development, so the browser only talks to port 5173.
 
@@ -93,19 +93,19 @@ Expected health response:
 
 ## Scripts
 
-| Command                                            | What it does                                              |
-| -------------------------------------------------- | --------------------------------------------------------- |
-| `npm run dev`                                      | setup + infrastructure + backend + frontend               |
-| `npm run dev:apps`                                 | backend + frontend only (infra already running)           |
-| `npm run dev:backend` / `dev:frontend`             | one app only                                              |
-| `npm run build`                                    | backend bundle (`backend/dist`) and frontend (`frontend/dist`) |
-| `npm run lint` / `lint:fix`                        | ESLint with type-aware rules                              |
-| `npm run format` / `format:check`                  | Prettier                                                  |
-| `npm run typecheck`                                | `tsc --noEmit` in every workspace                         |
-| `npm test`                                         | unit tests in backend, frontend and `tests/`              |
-| `npm run test:e2e` / `verify`                      | checks against the running stack                          |
-| `npm run infra:up` / `down` / `ps` / `logs`        | manage MongoDB and Redis                                  |
-| `npm run infra:reset`                              | stop containers and delete their data volumes             |
+| Command                                     | What it does                                                   |
+| ------------------------------------------- | -------------------------------------------------------------- |
+| `npm run dev`                               | setup + infrastructure + backend + frontend                    |
+| `npm run dev:apps`                          | backend + frontend only (infra already running)                |
+| `npm run dev:backend` / `dev:frontend`      | one app only                                                   |
+| `npm run build`                             | backend bundle (`backend/dist`) and frontend (`frontend/dist`) |
+| `npm run lint` / `lint:fix`                 | ESLint with type-aware rules                                   |
+| `npm run format` / `format:check`           | Prettier                                                       |
+| `npm run typecheck`                         | `tsc --noEmit` in every workspace                              |
+| `npm test`                                  | unit tests in backend, frontend and `tests/`                   |
+| `npm run test:e2e` / `verify`               | checks against the running stack                               |
+| `npm run infra:up` / `down` / `ps` / `logs` | manage MongoDB and Redis                                       |
+| `npm run infra:reset`                       | stop containers and delete their data volumes                  |
 
 Run the compiled backend with `npm run build && npm run start -w @pulseops/backend`.
 
@@ -113,19 +113,19 @@ Run the compiled backend with `npm run build && npm run start -w @pulseops/backe
 
 All variables live in one root `.env` (copied from `.env.example`). The backend validates them with Zod at startup and exits with a list of every problem if anything is missing or malformed.
 
-| Variable                                        | Used by  | Default                 | Notes                                    |
-| ----------------------------------------------- | -------- | ----------------------- | ---------------------------------------- |
-| `NODE_ENV`                                      | backend  | `development`           | `development`, `test` or `production`    |
-| `HOST`, `PORT`                                  | backend  | `0.0.0.0`, `4000`       |                                          |
-| `LOG_LEVEL`                                     | backend  | `info`                  | `fatal` to `trace`, or `silent`          |
-| `CORS_ORIGINS`                                  | backend  | `http://localhost:5173` | comma-separated list                     |
-| `MONGODB_URI`                                   | backend  | required                | `mongodb://` or `mongodb+srv://`         |
-| `REDIS_URL`                                     | backend  | required                | `redis://` or `rediss://`                |
-| `SHUTDOWN_TIMEOUT_MS`                           | backend  | `10000`                 | forced exit after this long on SIGTERM   |
-| `MONGO_ROOT_USERNAME`, `MONGO_ROOT_PASSWORD`, `MONGO_DB_NAME`, `MONGO_PORT` | Compose | see file | keep in sync with `MONGODB_URI`          |
-| `REDIS_PASSWORD`, `REDIS_PORT`                  | Compose  | see file                | keep in sync with `REDIS_URL`            |
-| `VITE_API_BASE_URL`                             | frontend | `/api/v1`               | only `VITE_*` values reach the browser   |
-| `API_PROXY_TARGET`                              | Vite     | `http://localhost:4000` | dev and preview proxy target             |
+| Variable                                                                    | Used by  | Default                 | Notes                                  |
+| --------------------------------------------------------------------------- | -------- | ----------------------- | -------------------------------------- |
+| `NODE_ENV`                                                                  | backend  | `development`           | `development`, `test` or `production`  |
+| `HOST`, `PORT`                                                              | backend  | `0.0.0.0`, `4000`       |                                        |
+| `LOG_LEVEL`                                                                 | backend  | `info`                  | `fatal` to `trace`, or `silent`        |
+| `CORS_ORIGINS`                                                              | backend  | `http://localhost:5173` | comma-separated list                   |
+| `MONGODB_URI`                                                               | backend  | required                | `mongodb://` or `mongodb+srv://`       |
+| `REDIS_URL`                                                                 | backend  | required                | `redis://` or `rediss://`              |
+| `SHUTDOWN_TIMEOUT_MS`                                                       | backend  | `10000`                 | forced exit after this long on SIGTERM |
+| `MONGO_ROOT_USERNAME`, `MONGO_ROOT_PASSWORD`, `MONGO_DB_NAME`, `MONGO_PORT` | Compose  | see file                | keep in sync with `MONGODB_URI`        |
+| `REDIS_PASSWORD`, `REDIS_PORT`                                              | Compose  | see file                | keep in sync with `REDIS_URL`          |
+| `VITE_API_BASE_URL`                                                         | frontend | `/api/v1`               | only `VITE_*` values reach the browser |
+| `API_PROXY_TARGET`                                                          | Vite     | `http://localhost:4000` | dev and preview proxy target           |
 
 The passwords in `.env.example` are for local development only. Use real secrets from your secret manager in any shared environment.
 

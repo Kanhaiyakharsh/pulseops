@@ -49,7 +49,11 @@ export function toAppError(error: unknown): AppError {
       });
     }
     if (error.status >= 400 && error.status < 500) {
-      return new AppError({ statusCode: error.status, code: 'BAD_REQUEST', message: 'Bad request' });
+      return new AppError({
+        statusCode: error.status,
+        code: 'BAD_REQUEST',
+        message: 'Bad request',
+      });
     }
   }
 
