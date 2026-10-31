@@ -1,0 +1,52 @@
+{
+  "name": "pulseops",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PulseOps monorepo (Phase 1: foundation)",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0",
+    "npm": ">=10"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "packages/*",
+    "tests"
+  ],
+  "scripts": {
+    "setup": "node scripts/setup-env.mjs",
+    "dev": "npm run setup && npm run infra:up && npm run dev:apps",
+    "dev:apps": "concurrently --kill-others-on-fail --names backend,frontend --prefix-colors blue,magenta \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "npm run dev -w @pulseops/backend",
+    "dev:frontend": "npm run dev -w @pulseops/frontend",
+    "build": "npm run build -w @pulseops/backend && npm run build -w @pulseops/frontend",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "npm run test:e2e -w @pulseops/tests",
+    "verify": "npm run verify -w @pulseops/tests",
+    "infra:up": "docker compose --env-file .env -f infrastructure/docker-compose.yml up -d --wait",
+    "infra:down": "docker compose --env-file .env -f infrastructure/docker-compose.yml down",
+    "infra:reset": "docker compose --env-file .env -f infrastructure/docker-compose.yml down --volumes",
+    "infra:ps": "docker compose --env-file .env -f infrastructure/docker-compose.yml ps",
+    "infra:logs": "docker compose --env-file .env -f infrastructure/docker-compose.yml logs -f"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@types/node": "^22.18.0",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0"
+  }
+}
