@@ -28,10 +28,7 @@ export async function connectRedis(client: Redis, timeoutMs = 10_000): Promise<v
 }
 
 export async function pingRedis(client: Redis): Promise<void> {
-  const reply = await client.ping();
-  if (reply !== 'PONG') {
-    throw new Error(`Unexpected Redis reply: ${reply}`);
-  }
+  await client.ping();
 }
 
 export async function disconnectRedis(client: Redis): Promise<void> {

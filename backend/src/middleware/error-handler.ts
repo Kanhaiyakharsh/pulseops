@@ -15,8 +15,19 @@ function isHttpErrorLike(error: unknown): error is HttpErrorLike {
     typeof error === 'object' &&
     error !== null &&
     'status' in error &&
-    typeof (error as { status: unknown }).status === 'number'
+    typeof error.status === 'number'
   );
+}
+
+function formatRequestId(id: string | number | object): string {
+  if (typeof id === 'string') return id;
+  if (typeof id === 'number') return id.toString();
+
+  const serialized = JSON.stringify(id);
+  if (serialized === undefined) {
+    throw new TypeError('Request ID must be serializable');
+  }
+  return serialized;
 }
 
 /** Maps anything thrown in the request pipeline to an AppError. */
@@ -86,7 +97,7 @@ export const errorHandler: ErrorRequestHandler = (error: unknown, req, res, next
     error: {
       code: appError.code,
       message: appError.message,
-      requestId: String(req.id),
+      requestId: formatRequestId(req.id),
       ...(appError.details !== undefined ? { details: appError.details } : {}),
     },
   };
