@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "@pulseops/shared": "*",
+    "bullmq": "^6.5.4",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
-    "ioredis": "^5.7.0",
+    "ioredis": "^5.11.1",
     "mongoose": "^8.18.1",
     "pino": "^9.9.5",
     "pino-http": "^10.5.0",
